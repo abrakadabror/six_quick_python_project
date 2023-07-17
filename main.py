@@ -26,5 +26,8 @@ repositories = soup.find_all(class_ = 'd-inline-block mb-1')
 repository_list = []
 for repository in repositories:
     repository_name = repository.text.strip()
-    print(repository_name)
-print(repository_list)
+    repository_list.append(repository_name)
+repository_dict = dict(zip(range(1, len(repository_list)+ 1), repository_list)) 
+#W powyższym kodzie, repository_dict jest słownikiem, który został utworzony za pomocą funkcji dict() i zip() z listy repository_list
+for key, value in repository_dict.items(): # W pętli for, dla każdej iteracji, key przyjmie kolejne klucze  drukujemy wyniki w jednej linii jeden pod drugim
+    print(f"Key: {key} , Value: {value}")

@@ -1,6 +1,9 @@
 import requests
+import datetime 
 import pandas as pd
 from pprint import pprint
+import pytz
+
 
 API_Key = '8c51483763c4a686fcaf0c855d616909'
 
@@ -27,21 +30,32 @@ pressure_with_unit = str(pressure_unit) + ' hPa' #dodajemy jednostke hPa
 
 Humidity_opis = weather_data['main']['humidity'] 
 Humidity_zachmurzenie = str(Humidity_opis) + '/zachmurzenie'
+
+unix_timestamp = weather_data['sys']['sunset']
+utc_time = datetime.datetime.utcfromtimestamp(unix_timestamp)
+utc_time = utc_time.replace(tzinfo=pytz.utc)
+local_timezone = pytz.timezone('Europe/Warsaw')  
+warsaw_time = utc_time.astimezone(local_timezone).strftime('%Y-%m-%d %H:%M:%S')
+
+sunset_time = warsaw_time
+
+
 #tworzenie slownika z danymi pogodowymi 
 weather_dict = {
     'City' : city,
     'Temperature': temp_with_unit,
-    'Humidity': weather_data['main']['humidity'],
+    'Humidity': Humidity_zachmurzenie,
     'Weather Description': weather_data['weather'][0]['description'],
     'Actual_pressure': pressure_with_unit,
     'Localization': weather_data ['sys']['country'],
-    'Power of wind': weather_data ['wind']['speed']
+    'Power of wind': weather_data ['wind']['speed'],
+    'Today sunset at': sunset_time
     }
 
 df = pd.DataFrame([weather_dict])
 print(df)
 
-
+df.to_excel('weather_information.xlsx', index = False) #index false zeby nie dodalo nam kolumny z numerowaniem
 
 
 

@@ -5,21 +5,21 @@ from pprint import pprint
 import pytz
 
 
-API_Key = '8c51483763c4a686fcaf0c855d616909'
+API_Key = '8c51483763c4a686fcaf0c855d616909' #key ze strony openweathermap trzeba sie zarejestrowac
 
-city = input('enter a city: ')
+city = input('enter a city: ') #prsoimy uzytkownika o podanie nazyw miasta
 
 base_url = 'http://api.openweathermap.org/data/2.5/weather?appid=' + API_Key + '&q=' + city
 
 response = requests.get(base_url)
 
-if response.status_code == 200:
-    print('good connection')
+if response.status_code == 200: #sprawdzamy czy strona odpowiada
+    print('good connection') 
 else:
     print('something went wrong') 
 
-weather_data = response.json()
-pprint(weather_data)
+weather_data = response.json() #tworzymi plik json
+pprint(weather_data) #drukujemy wynikli w "upiekszonej" wersji
 temp_kelvin  = weather_data['main']['temp'] #podajemy kolumne main oraz miejsce skad ma pobrac dane dla aktualnej temp
 temp_celcius = temp_kelvin - 273.15
 temp_round = round(temp_celcius, 2) #zaokroglamy wynik do dwoch miejsc po przecinku

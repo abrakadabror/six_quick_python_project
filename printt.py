@@ -45,3 +45,5 @@ elif inventory <= 5:
         print('Low Stock')
 else:
         print('Out of stock')
+
+
